@@ -10,8 +10,8 @@ function ProtectedRoute({ children }) {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent" />
+      <div className="flex min-h-screen items-center justify-center bg-canvas">
+        <div className="h-6 w-6 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     )
   }
@@ -57,19 +57,19 @@ export default function App() {
             <Route index element={<Home />} />
             <Route
               path="proyectos"
-              element={<PlaceholderPage title="Módulo de Proyectos" />}
+              element={<PlaceholderPage title="Módulo de Proyectos" code="PRJ-01" />}
             />
             <Route
               path="usuarios"
-              element={<PlaceholderPage title="Gestión de Usuarios" />}
+              element={<PlaceholderPage title="Gestión de Usuarios" code="USR-02" />}
             />
             <Route
               path="reportes"
-              element={<PlaceholderPage title="Reportes y Estadísticas" />}
+              element={<PlaceholderPage title="Reportes y Estadísticas" code="REP-03" />}
             />
             <Route
               path="configuracion"
-              element={<PlaceholderPage title="Configuración del Sistema" />}
+              element={<PlaceholderPage title="Configuración del Sistema" code="CFG-04" />}
             />
           </Route>
 

@@ -14,11 +14,11 @@ import {
 import { useAuth } from '../context/AuthContext'
 
 const navItems = [
-  { name: 'Inicio', path: '/', icon: LayoutDashboard },
-  { name: 'Proyectos', path: '/proyectos', icon: FolderKanban },
-  { name: 'Usuarios', path: '/usuarios', icon: Users },
-  { name: 'Reportes', path: '/reportes', icon: FileText },
-  { name: 'Configuración', path: '/configuracion', icon: Settings },
+  { name: 'Inicio', path: '/', icon: LayoutDashboard, shortcut: 'G H' },
+  { name: 'Proyectos', path: '/proyectos', icon: FolderKanban, shortcut: 'G P' },
+  { name: 'Usuarios', path: '/usuarios', icon: Users, shortcut: 'G U' },
+  { name: 'Reportes', path: '/reportes', icon: FileText, shortcut: 'G R' },
+  { name: 'Configuración', path: '/configuracion', icon: Settings, shortcut: 'G S' },
 ]
 
 export default function Sidebar({
@@ -31,32 +31,34 @@ export default function Sidebar({
 
   return (
     <>
-      {/* Overlay oscuro para móvil */}
+      {/* Overlay oscuro para móvil ({colors.semantic-overlay}) */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-30 bg-slate-900/50 backdrop-blur-xs transition-opacity lg:hidden"
+          className="fixed inset-0 z-30 bg-semantic-overlay/80 backdrop-blur-xs transition-opacity lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Contenedor del Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex flex-col bg-slate-900 text-slate-300 border-r border-slate-800 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 flex flex-col bg-canvas text-ink border-r border-hairline transition-all duration-200 ease-out lg:static lg:translate-x-0 ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
-        } ${collapsed ? 'lg:w-20' : 'w-64'}`}
+        } ${collapsed ? 'lg:w-16' : 'w-60'}`}
       >
-        {/* Cabecera / Logo */}
-        <div className="flex h-16 items-center justify-between px-4 border-b border-slate-800">
-          <div className="flex items-center gap-3 overflow-hidden">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-md shadow-indigo-600/30">
-              <Layers className="h-5 w-5" />
+        {/* Cabecera / Brand Mark (56px height matching top-nav) */}
+        <div className="flex h-14 items-center justify-between px-3.5 border-b border-hairline">
+          <div className="flex items-center gap-2.5 overflow-hidden">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[6px] bg-primary text-on-primary">
+              <Layers className="h-4 w-4" />
             </div>
             {!collapsed && (
-              <div className="flex flex-col truncate">
-                <span className="text-base font-bold tracking-tight text-white">
+              <div className="flex items-center gap-2 truncate">
+                <span className="text-[14px] font-medium tracking-[-0.2px] text-ink">
                   DjangoPanel
                 </span>
-                <span className="text-xs text-slate-400">Admin Workspace</span>
+                <span className="rounded-full bg-surface-2 border border-hairline px-2 py-0.5 font-mono text-[11px] text-ink-subtle">
+                  v2.4
+                </span>
               </div>
             )}
           </div>
@@ -64,17 +66,17 @@ export default function Sidebar({
           {/* Botón cerrar en móvil */}
           <button
             onClick={() => setMobileOpen(false)}
-            className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white lg:hidden"
+            className="rounded-[8px] p-1.5 text-ink-subtle hover:bg-surface-1 hover:text-ink lg:hidden cursor-pointer"
           >
-            <X className="h-5 w-5" />
+            <X className="h-4 w-4" />
           </button>
         </div>
 
         {/* Navegación Principal */}
-        <nav className="flex-1 space-y-1.5 px-3 py-5 overflow-y-auto">
+        <nav className="flex-1 space-y-1 px-2.5 py-4 overflow-y-auto">
           {!collapsed && (
-            <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
-              Menú Principal
+            <p className="px-2.5 pb-2 linear-eyebrow text-ink-tertiary uppercase">
+              Workspace
             </p>
           )}
           {navItems.map((item) => {
@@ -87,34 +89,54 @@ export default function Sidebar({
                 onClick={() => setMobileOpen(false)}
                 title={collapsed ? item.name : undefined}
                 className={({ isActive }) =>
-                  `group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
+                  `group flex items-center justify-between rounded-[8px] px-2.5 py-2 text-[14px] font-medium leading-[1.2] transition-colors ${
                     isActive
-                      ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/20'
-                      : 'text-slate-400 hover:bg-slate-800/70 hover:text-white'
-                  } ${collapsed ? 'justify-center' : ''}`
+                      ? 'bg-surface-2 text-ink border border-hairline-strong/80 linear-panel-highlight'
+                      : 'border border-transparent text-ink-subtle hover:bg-surface-1 hover:text-ink'
+                  } ${collapsed ? 'justify-center px-0' : ''}`
                 }
               >
-                <Icon className="h-5 w-5 shrink-0" />
-                {!collapsed && <span className="truncate">{item.name}</span>}
+                {({ isActive }) => (
+                  <>
+                    <div className="flex items-center gap-2.5 truncate">
+                      <Icon
+                        className={`h-4 w-4 shrink-0 transition-colors ${
+                          isActive
+                            ? 'text-primary'
+                            : 'text-ink-subtle group-hover:text-ink'
+                        }`}
+                      />
+                      {!collapsed && <span className="truncate">{item.name}</span>}
+                    </div>
+                    {!collapsed && (
+                      <span className="font-mono text-[11px] text-ink-tertiary opacity-0 group-hover:opacity-100 transition-opacity">
+                        {item.shortcut}
+                      </span>
+                    )}
+                  </>
+                )}
               </NavLink>
             )
           })}
         </nav>
 
         {/* Pie del Sidebar (Colapsar + Cerrar Sesión) */}
-        <div className="border-t border-slate-800 p-3 space-y-1.5">
+        <div className="border-t border-hairline p-2.5 space-y-1">
           {/* Botón para colapsar en escritorio */}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="hidden lg:flex w-full items-center justify-center gap-3 rounded-xl px-3 py-2 text-xs font-medium text-slate-400 hover:bg-slate-800 hover:text-white transition-colors cursor-pointer"
+            className="hidden lg:flex w-full items-center justify-between rounded-[8px] px-2.5 py-2 text-[13px] font-medium text-ink-subtle hover:bg-surface-1 hover:text-ink transition-colors cursor-pointer linear-focus-ring"
             title={collapsed ? 'Expandir barra lateral' : 'Colapsar barra lateral'}
           >
             {collapsed ? (
-              <ChevronRight className="h-4 w-4" />
+              <ChevronRight className="mx-auto h-4 w-4" />
             ) : (
               <>
-                <ChevronLeft className="h-4 w-4" />
-                <span>Contraer menú</span>
+                <span className="flex items-center gap-2.5">
+                  <ChevronLeft className="h-4 w-4" />
+                  <span>Contraer panel</span>
+                </span>
+                <span className="font-mono text-[11px] text-ink-tertiary">[</span>
               </>
             )}
           </button>
@@ -123,11 +145,11 @@ export default function Sidebar({
           <button
             onClick={logout}
             title={collapsed ? 'Cerrar sesión' : undefined}
-            className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-colors cursor-pointer ${
-              collapsed ? 'justify-center' : ''
+            className={`flex w-full items-center gap-2.5 rounded-[8px] px-2.5 py-2 text-[14px] font-medium leading-[1.2] text-ink-subtle hover:bg-surface-1 hover:text-ink transition-colors cursor-pointer linear-focus-ring ${
+              collapsed ? 'justify-center px-0' : ''
             }`}
           >
-            <LogOut className="h-5 w-5 shrink-0" />
+            <LogOut className="h-4 w-4 shrink-0 text-ink-tertiary" />
             {!collapsed && <span>Cerrar sesión</span>}
           </button>
         </div>

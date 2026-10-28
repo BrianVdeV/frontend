@@ -8,7 +8,7 @@ export default function DashboardLayout() {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-slate-50">
+    <div className="flex h-screen w-full overflow-hidden bg-canvas text-ink">
       {/* Barra lateral */}
       <Sidebar
         collapsed={collapsed}
@@ -18,11 +18,11 @@ export default function DashboardLayout() {
       />
 
       {/* Área principal (Topbar + Contenido scrollable) */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-1 flex-col overflow-hidden bg-canvas">
         <Topbar onOpenMobileMenu={() => setMobileOpen(true)} />
 
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-          <div className="mx-auto max-w-7xl">
+        <main className="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[1280px]">
             <Outlet />
           </div>
         </main>
